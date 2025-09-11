@@ -1,14 +1,18 @@
 // Top-level build.gradle.kts
 
 plugins {
-    // Android plugin
-    id("com.android.application") version "7.4.2" apply false
-    // Kotlin plugin
-    id("org.jetbrains.kotlin.android") version "1.8.22" apply false
-    // Flutter plugin
+    // Android plugin (compatible avec AGP 8.9.1)
+    id("com.android.application") version "8.9.1" apply false
+    id("com.android.library") version "8.9.1" apply false
+
+    // Kotlin plugin (à mettre au moins en 1.9.x pour AGP 8.9.1)
+    id("org.jetbrains.kotlin.android") version "1.9.23" apply false
+
+    // Flutter Gradle plugin
     id("dev.flutter.flutter-gradle-plugin") apply false
-    // Google Services plugin (for Firebase)
-    id("com.google.gms.google-services") version "4.4.3" apply false
+
+    // Google Services plugin (Firebase)
+    id("com.google.gms.google-services") version "4.4.2" apply false
 }
 
 allprojects {
