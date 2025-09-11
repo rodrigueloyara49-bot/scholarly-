@@ -9,40 +9,65 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String errorMessage = "";
+  bool _isLoading = false;
+  String? _errorMessage;
 
-  Future<void> signIn() async {
+  // Function to login user
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
     try {
       await _auth.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
+      // If login successful, navigate to Home Page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } on FirebaseAuthException catch (e) {
       setState(() {
-        errorMessage = "Login successful ✅";
+        _errorMessage = e.message;
       });
-    } catch (e) {
+    } finally {
       setState(() {
-        errorMessage = "Login failed: $e";
+        _isLoading = false;
       });
     }
   }
 
-  Future<void> register() async {
+  // Function to register user
+  Future<void> _register() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
     try {
       await _auth.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } on FirebaseAuthException catch (e) {
       setState(() {
-        errorMessage = "Account created successfully 🎉";
+        _errorMessage = e.message;
       });
-    } catch (e) {
+    } finally {
       setState(() {
-        errorMessage = "Registration failed: $e";
+        _isLoading = false;
       });
     }
   }
@@ -57,30 +82,53 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                labelText: "Email",
-                border: OutlineInputBorder(),
-              ),
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: "Email"),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
             TextField(
-              controller: passwordController,
+              controller: _passwordController,
+              decoration: const InputDecoration(labelText: "Password"),
               obscureText: true,
-              decoration: const InputDecoration(
-                labelText: "Password",
-                border: OutlineInputBorder(),
-              ),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(onPressed: signIn, child: const Text("Login")),
-            const SizedBox(height: 8),
-            ElevatedButton(onPressed: register, child: const Text("Register")),
-            const SizedBox(height: 16),
-            Text(errorMessage, style: const TextStyle(color: Colors.red)),
+            const SizedBox(height: 20),
+
+            if (_errorMessage != null)
+              Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
+
+            const SizedBox(height: 20),
+
+            _isLoading
+                ? const CircularProgressIndicator()
+                : Column(
+                    children: [
+                      ElevatedButton(
+                        onPressed: _login,
+                        child: const Text("Login"),
+                      ),
+                      const SizedBox(height: 10),
+                      OutlinedButton(
+                        onPressed: _register,
+                        child: const Text("Register"),
+                      ),
+                    ],
+                  ),
           ],
         ),
       ),
+    );
+  }
+}
+
+// Dummy HomePage
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Home Page")),
+      body: const Center(child: Text("Welcome! You are logged in.")),
     );
   }
 }
