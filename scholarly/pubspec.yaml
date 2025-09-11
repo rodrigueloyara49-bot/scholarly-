@@ -17,7 +17,7 @@ dependencies:
   firebase_analytics: ^11.0.0
 
   # Firebase Authentication (for login/signup)
-  firebase_auth: ^5.1.0
+  firebase_auth: ^5.0.0
 
   # Cloud Firestore (to store students' motivations or any other data)
   cloud_firestore: ^5.0.0
