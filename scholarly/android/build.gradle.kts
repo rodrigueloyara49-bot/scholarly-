@@ -1,11 +1,10 @@
 // Top-level build.gradle.kts
 
 plugins {
-    // Android plugin (compatible avec AGP 8.9.1)
+    // Android plugin (only application, not library)
     id("com.android.application") version "8.9.1" apply false
-    id("com.android.library") version "8.9.1" apply false
 
-    // Kotlin plugin (à mettre au moins en 1.9.x pour AGP 8.9.1)
+    // Kotlin plugin (compatible with AGP 8.9.1)
     id("org.jetbrains.kotlin.android") version "1.9.23" apply false
 
     // Flutter Gradle plugin
