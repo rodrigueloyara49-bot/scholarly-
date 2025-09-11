@@ -11,7 +11,7 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin") apply false
 
     // Google Services plugin (Firebase)
-    id("com.google.gms.google-services") version "4.4.2" apply false
+    id("com.google.gms.google-services") version "4.3.15" apply false
 }
 
 allprojects {
