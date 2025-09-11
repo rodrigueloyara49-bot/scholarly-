@@ -5,7 +5,7 @@ plugins {
     id("com.android.application") version "8.9.1" apply false
 
     // Kotlin plugin (compatible with AGP 8.9.1)
-    id("org.jetbrains.kotlin.android") version "1.9.23" apply false
+    id("org.jetbrains.kotlin.android") version "2.1.0" apply false
 
     // Flutter Gradle plugin
     id("dev.flutter.flutter-gradle-plugin") apply false
