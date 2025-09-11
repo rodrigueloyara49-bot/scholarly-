@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "766910937787",
+    "project_id": "scholarly-a149a",
+    "storage_bucket": "scholarly-a149a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766910937787:android:9be2b5d3f915984f69879e",
+        "android_client_info": {
+          "package_name": "com.example.scholarly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzRM2gLgTfYmnoBCKb6jqKRlHcsj1a73E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
