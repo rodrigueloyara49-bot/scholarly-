@@ -21,6 +21,13 @@ class _HomeScreenState extends State<HomeScreen> {
     ProfileScreen(),
   ];
 
+  final List<String> _titles = const [
+    "School News",
+    "Daily Mood",
+    "Motivation",
+    "Profile",
+  ];
+
   void _onItemTapped(int index) {
     setState(() => _selectedIndex = index);
   }
@@ -28,6 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(_titles[_selectedIndex]),
+        backgroundColor: Colors.deepPurple,
+      ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
