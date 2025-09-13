@@ -1,9 +1,7 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    // Flutter plugin
+    id("org.jetbrains.kotlin.android") // ✅ correct plugin name
     id("dev.flutter.flutter-gradle-plugin")
-    // Firebase Google services plugin
     id("com.google.gms.google-services")
 }
 
@@ -22,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        // 👇 This is your ApplicationId (must match what you register in Firebase)
+        // This must match the package name you registered in Firebase
         applicationId = "com.example.scholarly"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
@@ -32,7 +30,7 @@ android {
 
     buildTypes {
         release {
-            // Using debug signing for now, replace with your release key later
+            // Temporary debug signing, replace with your own release key later
             signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -43,14 +41,11 @@ flutter {
 }
 
 dependencies {
-    // Firebase BoM (Bill of Materials) - keeps all Firebase libs on the same version
+    // Firebase Bill of Materials (keeps versions aligned)
     implementation(platform("com.google.firebase:firebase-bom:34.2.0"))
 
-    // Firebase Analytics
+    // Firebase products
     implementation("com.google.firebase:firebase-analytics")
-
-    // 👉 Add more Firebase products here if needed:
-    // implementation("com.google.firebase:firebase-auth")
-    // implementation("com.google.firebase:firebase-firestore")
-    // implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-auth")      // ✅ Firebase Authentication
+    implementation("com.google.firebase:firebase-firestore") // ✅ Cloud Firestore
 }
