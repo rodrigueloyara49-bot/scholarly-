@@ -1,30 +1,25 @@
-// This is a basic Flutter widget test.
+// This is a basic Flutter widget test adapted for the Scholarly app.
 //
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// It checks that the Login screen displays its key elements correctly.
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; // ✅ Needed for TextField, Icons, etc.
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:scholarly/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Login screen shows email, password and login button', (
+    WidgetTester tester,
+  ) async {
+    // Build the Scholarly app and trigger a frame.
+    await tester.pumpWidget(const ScholarlyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that the title "Login" is displayed.
+    expect(find.text('Login'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verify that there are exactly two TextFields (email and password).
+    expect(find.byType(TextField), findsNWidgets(2));
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the Login button is present.
+    expect(find.text('Login'), findsWidgets); // title + button text
   });
 }
