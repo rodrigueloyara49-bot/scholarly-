@@ -16,8 +16,8 @@ dependencies:
   # Firebase Authentication (for login/signup)
   firebase_auth: ^5.0.0
 
-  # Firebase Realtime Database (new: to store news & moods)
-  firebase_database: ^10.0.16
+  # Firebase Realtime Database (to store news & moods)
+  firebase_database: ^11.3.10
 
   # Firebase Analytics (optional)
   firebase_analytics: ^11.0.0
