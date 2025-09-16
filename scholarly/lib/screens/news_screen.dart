@@ -26,13 +26,12 @@ class NewsScreen extends StatelessWidget {
             return const Center(child: Text('No news available'));
           }
 
-          final data =
-              snapshot.data!.snapshot.value as Map<dynamic, dynamic>;
+          final data = snapshot.data!.snapshot.value as Map<dynamic, dynamic>;
           final items = data.entries.map((entry) {
             final value = entry.value as Map<dynamic, dynamic>;
             return {
               'title': value['title'] ?? 'No title',
-              'description': value['description'] ?? ''
+              'description': value['description'] ?? '',
             };
           }).toList();
 
