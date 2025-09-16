@@ -1,43 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class NewsScreen extends StatelessWidget {
   const NewsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseReference newsRef = FirebaseDatabase.instance.ref('news');
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("School News"),
+        title: const Text('School News 📰'),
         backgroundColor: Colors.deepPurple,
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('news')
-            .orderBy('createdAt', descending: true)
-            .snapshots(),
+      body: StreamBuilder<DatabaseEvent>(
+        stream: newsRef.onValue,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text("No news available yet."));
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData || snapshot.data!.snapshot.value == null) {
+            return const Center(child: Text('No news available'));
           }
 
-          final articles = snapshot.data!.docs;
+          final data =
+              snapshot.data!.snapshot.value as Map<dynamic, dynamic>;
+          final items = data.entries.map((entry) {
+            final value = entry.value as Map<dynamic, dynamic>;
+            return {
+              'title': value['title'] ?? 'No title',
+              'description': value['description'] ?? ''
+            };
+          }).toList();
 
-          return ListView.builder(
-            itemCount: articles.length,
+          return ListView.separated(
+            itemCount: items.length,
+            separatorBuilder: (_, __) =>
+                const Divider(height: 1, color: Colors.grey),
             itemBuilder: (context, index) {
-              final data = articles[index].data() as Map<String, dynamic>;
-              return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                elevation: 3,
-                child: ListTile(
-                  leading: const Icon(Icons.newspaper),
-                  title: Text(data['title'] ?? 'No title'),
-                  subtitle: Text(data['description'] ?? 'No description'),
-                ),
+              final article = items[index];
+              return ListTile(
+                leading: const Icon(Icons.article_outlined),
+                title: Text(article['title']!),
+                subtitle: Text(article['description']!),
               );
             },
           );
