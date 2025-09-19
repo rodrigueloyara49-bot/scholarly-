@@ -15,7 +15,7 @@ class NewsScreen extends StatelessWidget {
         title: const Text("School News"),
         backgroundColor: Colors.deepPurple,
       ),
-      body: StreamBuilder(
+      body: StreamBuilder<DatabaseEvent>(
         stream: newsRef.onValue,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -24,15 +24,11 @@ class NewsScreen extends StatelessWidget {
           if (snapshot.hasError) {
             return const Center(child: Text("Error loading news"));
           }
-          if (!snapshot.hasData ||
-              (snapshot.data! as DatabaseEvent).snapshot.value == null) {
+          if (!snapshot.hasData || snapshot.data!.snapshot.value == null) {
             return const Center(child: Text("No news available"));
           }
 
-          final data =
-              (snapshot.data! as DatabaseEvent).snapshot.value
-                  as Map<dynamic, dynamic>;
-
+          final data = snapshot.data!.snapshot.value as Map<dynamic, dynamic>;
           final newsItems = data.entries.map((entry) {
             final item = entry.value as Map;
             return {
